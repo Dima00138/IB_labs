@@ -1,0 +1,8 @@
+# Прообраз
+FROM haproxy:alpine 
+# сертификаты для лабы
+COPY domain.crt /usr/local/etc/haproxy/domain.crt
+COPY domain.key /usr/local/etc/haproxy/domain.crt.key
+# конфиг для haproxy
+COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+# CMD [ "netstat", "-tuln", "|", "grep 3000" ]

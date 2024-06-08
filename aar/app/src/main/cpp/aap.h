@@ -1,0 +1,8 @@
+//
+// Created by joper on 25.05.2024.
+//
+
+#ifndef ACCELEROMETRHASH_AAP_H
+#define ACCELEROMETRHASH_AAP_H
+
+#endif //ACCELEROMETRHASH_AAP_H

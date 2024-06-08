@@ -1,0 +1,247 @@
+openapi: 3.0.2
+info:
+  title: API
+  version: "1.0"
+servers:
+- url: https://api.server.test/v1
+- url: https://api.oauth2server.test
+- url: https://api.hashserver.test
+security:
+- HTTPS: []
+paths:
+  /auth:
+    get:
+      description: Receive auth form
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - User
+    post:
+      description: Send auth form
+      parameters:
+      - explode: false
+        in: path
+        name: body
+        required: true
+        schema:
+          $ref: '#/components/schemas/User'
+        style: simple
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - User
+  /register:
+    get:
+      description: Receive register form
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - User
+    post:
+      description: Send register form
+      parameters:
+      - explode: false
+        in: path
+        name: body
+        required: true
+        schema:
+          $ref: '#/components/schemas/User'
+        style: simple
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - User
+  /auth/:
+    delete:
+      description: Delete user by email
+      parameters:
+      - explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - User
+    get:
+      description: Receive user by email
+      parameters:
+      - explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - User
+    put:
+      description: Update user by email
+      parameters:
+      - explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: path
+        name: body
+        required: true
+        schema:
+          $ref: '#/components/schemas/User'
+        style: simple
+      responses:
+        "200":
+          description: OK
+      tags:
+      - User
+  /message:
+    get:
+      description: Get page with messages
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Message'
+                type: array
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+      - Message
+    post:
+      description: Post message
+      parameters:
+      - explode: false
+        in: path
+        name: body
+        required: true
+        schema:
+          $ref: '#/components/schemas/Message'
+        style: simple
+      responses:
+        "200":
+          description: OK
+      tags:
+      - Message
+  /message/:
+    put:
+      description: Update user message
+      parameters:
+      - explode: true
+        in: query
+        name: MessageId
+        required: true
+        schema:
+          type: integer
+        style: form
+      - explode: false
+        in: path
+        name: body
+        required: true
+        schema:
+          $ref: '#/components/schemas/Message'
+        style: simple
+      responses:
+        "200":
+          description: OK
+      tags:
+      - Message
+components:
+  schemas:
+    User:
+      example:
+        password: password
+        id: 0
+        email: email
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string
+      type: object
+    APIResponse:
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+        message:
+          type: string
+      type: object
+    Tag:
+      properties:
+        id:
+          type: integer
+        tag:
+          type: string
+      type: object
+    Message:
+      example:
+        UserId: 6
+        id: 0
+        message: message
+      properties:
+        id:
+          type: integer
+        UserId:
+          type: integer
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    google:
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.oauth2server.test/api/oauth/dialogGoogle
+          scopes:
+            read: read scope
+            write: write scope
+          tokenUrl: https://api.oauth2server.test/api/oauth/tokenGoogle
+      type: oauth2
+    github:
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.oauth2server.test/api/oauth/dialogGitHub
+          scopes:
+            read: read scope
+            write: write scope
+          tokenUrl: https://api.oauth2server.test/api/oauth/tokenGitHub
+      type: oauth2
+

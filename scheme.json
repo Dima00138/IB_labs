@@ -1,0 +1,259 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"API",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"https://api.server.test/v1"},
+      {"url": "https://api.oauth2server.test"},
+      {"url": "https://api.hashserver.test"}
+    ],
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "APIResponse": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "message":{
+                        "type": "string"
+                    }
+                }
+            },
+            "Tag": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "tag": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Message":{
+                "type":"object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "UserId": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "google": {
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://api.oauth2server.test/api/oauth/dialogGoogle",
+                        "tokenUrl": "https://api.oauth2server.test/api/oauth/tokenGoogle",
+                        "scopes": {
+                            "read": "read scope",
+                            "write": "write scope"
+                        }
+                    }
+                }
+            },
+            "github": {
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://api.oauth2server.test/api/oauth/dialogGitHub",
+                        "tokenUrl": "https://api.oauth2server.test/api/oauth/tokenGitHub",
+                        "scopes": {
+                            "read": "read scope",
+                            "write": "write scope"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [],
+    "paths": {
+        "/auth": {
+            "get": {
+                "tags": ["User"],
+                "description": "Receive auth form",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["User"],
+                "description": "Send auth form",
+                "parameters": [{"in": "path", "name": "body","required":true,
+                 "schema":{"$ref":"#/components/schemas/User"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "get": {
+                "tags": ["User"],
+                "description": "Receive register form",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["User"],
+                "description": "Send register form",
+                "parameters": [{"in": "path", "name": "body","required":true,
+                "schema":{"$ref":"#/components/schemas/User"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/auth/": {
+            "get": {
+                "tags": ["User"],
+                "description": "Receive user by email",
+                "parameters": [{"in":"query", "name": "email", "required": true,
+                "schema":{"type":"string"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{"$ref": "#/components/schemas/User"}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["User"],
+                "description": "Update user by email",
+                "parameters": [{"in":"query", "name": "email", "required": true,
+                "schema":{"type":"string"}},
+                {"in": "path", "name": "body","required":true,
+                "schema":{"$ref":"#/components/schemas/User"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["User"],
+                "description": "Delete user by email",
+                "parameters": [{"in":"query", "name": "email", "required": true,
+                "schema":{"type":"string"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/message": {
+            "get": {
+                "tags": ["Message"],
+                "description": "Get page with messages",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{"type": "array",
+                        "items": {"$ref":"#/components/schemas/Message"}}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Message"],
+                "description": "Post message",
+                "parameters": [{"in": "path", "name": "body","required":true,
+                "schema":{"$ref":"#/components/schemas/Message"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/message/": {
+            "put": {
+                "tags": ["Message"],
+                "description": "Update user message",
+                "parameters": [{"in":"query", "name": "MessageId", "required": true,
+                "schema":{"type":"integer"}},
+                {"in": "path", "name": "body","required":true,
+                "schema":{"$ref":"#/components/schemas/Message"}}],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+        
+    },
+    "security": [
+        {
+            "HTTPS": []
+        }
+    ]
+  }
