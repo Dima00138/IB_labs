@@ -103,10 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text('Генерация ключа'),
               ),
               const SizedBox(height: 20),
-              Text('Accelerometer Data: $_accelerometerData'),
+              Text('Данные акселерометра: $_accelerometerData'),
               ElevatedButton(
                 onPressed: _isButtonDisabled ? null : _getString,
-                child: const Text('Test'),
+                child: const Text('Тест'),
               ),
             ],
           ),

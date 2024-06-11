@@ -1,4 +1,4 @@
-package kaler.accelerometrhash
+package dima00138.accelerometrhash
 
 import android.content.Context
 import android.hardware.Sensor
